@@ -1,0 +1,59 @@
+= The Little Time Snitch
+  
+  A simple timereporting app built with shoes
+
+== Installation
+    
+  You must first install shoes:
+
+  Mac OS X (Tiger & Leopard)
+    http://shoooes.net/dist/shoes2.dmg
+  
+  Linux (Ubuntu, Fedora, Arch; i686)
+    http://shoooes.net/dist/shoes2.run
+
+  Windows (Vista, XP, 2k)
+    http://shoooes.net/dist/shoes2.exe
+
+  
+  For more information visit: http://shoooes.net/
+
+== Configuration
+
+  For now there's no configuration file so you'll have to dig into the source and
+  locate the 'send_mail' method near the bottom of the file and edit the smtp settings.
+
+  The method looks like this:
+
+  def send_mail
+      body = <<-END
+      Timereport: #{@@company.text}
+      
+        Duration: #{@current_time}
+        Project : #{@@project.text}
+        
+        Description: 
+      
+        #{@@description.text}
+      END
+      
+      TLTS::Utils::Mailer.send_message(
+        :from    => "Donald Duck <donald@disneyland.com>",
+        :to      => "Mickey Mouse <mickey@disneyland.com>",
+        :subject => "Timereport: #{@@company.text}",
+        :body    => body,
+        :auth    => {
+          :smtp     => "smtp.domain.com",
+          :port     => 25,
+          :domain   => "domain.com",
+          :username => "donald@disneyland.com",
+          :password => "unlucky",
+          :type     => :login
+        }
+      )
+    end
+
+== Usage
+
+  Just start shoes and then click the 'Open App' link in the window that appears and locate
+  the "the_little_time_snitcher.rb" file.
